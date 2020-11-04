@@ -25,7 +25,7 @@ BEGIN
 
 	-- CONVERT here is used to get full date without hours and minutes
 
-	SELECT cr.date, dc.CurrencyAlternateKey 
+	SELECT cr.AverageRate, cr.EndOfDayRate, dc.CurrencyAlternateKey , cr.date
 	FROM dbo.FactCurrencyRate AS cr 
 	JOIN dbo.DimCurrency AS dc ON cr.CurrencyKey = dc.CurrencyKey
 	WHERE (dc.CurrencyAlternateKey LIKE 'EUR' OR dc.CurrencyAlternateKey LIKE 'GBP')
