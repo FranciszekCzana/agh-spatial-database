@@ -28,8 +28,8 @@ BEGIN
 	SELECT cr.AverageRate, cr.EndOfDayRate, dc.CurrencyAlternateKey , cr.date
 	FROM dbo.FactCurrencyRate AS cr 
 	JOIN dbo.DimCurrency AS dc ON cr.CurrencyKey = dc.CurrencyKey
-	WHERE (dc.CurrencyAlternateKey LIKE 'EUR' OR dc.CurrencyAlternateKey LIKE 'GBP')
-	AND CONVERT(VARCHAR(10), cr.date, 103) LIKE CONVERT(VARCHAR(10), DATEADD(year, @YearsAgo*(-1),GETDATE()), 103);
+	WHERE (dc.CurrencyAlternateKey = 'EUR' OR dc.CurrencyAlternateKey = 'GBP')
+	AND CONVERT(VARCHAR(10), cr.date, 103) = CONVERT(VARCHAR(10), DATEADD(year, @YearsAgo*(-1),GETDATE()), 103);
 	
 END
 GO
