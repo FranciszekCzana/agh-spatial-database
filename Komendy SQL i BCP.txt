@@ -1,0 +1,17 @@
+SQL:
+CREATE TABLE IF NOT EXISTS CUSTOMERS_290900( ProductKey INT, CurrencyAlternateKey VARCHAR(255), First_Name VARCHAR(255), Last_Name VARCHAR(255), OrderDateKey VARCHAR(255), OrderQuantity INT, UnitPrice FLOAT, SecretCode VARCHAR(255));
+LOAD DATA LOCAL INFILE 'InternetSales_new.txt' INTO TABLE CUSTOMERS_290900 FIELDS TERMINATED BY '|';
+UPDATE CUSTOMERS_290900 SET SecretCode = RIGHT(MD5(RAND()), 10);
+SELECT * FROM CUSTOMERS_290900;
+
+BCP:
+bcp AdventureWorksDW2019.dbo.CUSTOMERS_290900 format nul -S DESKTOP-HL49ILO\MSSQLSERVER01 -T -f bcp_format.fmt
+bcp AdventureWorksDW2019.dbo.CUSTOMERS_290900 in ./export.csv -S DESKTOP-HL49ILO\MSSQLSERVER01 -T -f ./bcp_format.fmt -F 2
+
+Notka:
+
+1. W walidacji użyto wyrażenia regularnego dla sprawdzenia Customer_Name, bo nie znaleziono innej drogi na dobre sprawdzenie danego wymagania. Co prawda wykryto i tak tą drogą jedno nazwisko zawierające same znaki specjalne, jednak pozostawiono je jako prawidłowe, ponieważ ograniczenie do [a-zA-Z-] też nie było dobre, bo eliminowało mnóstwo osób z imieniem/nazwiskiem zawierającymi znaki typu á, ü.
+
+2. W wiadomości email ilość ładowanych plików do tabeli CUSTOMERS zliczona jako "SELECT COUNT(*)..." - co będzie złą wartością, jeśli w tabeli znajdowały się już wcześniej jakieś dane. Ale nie wystarczyło czasu na dogrzebanie się prawidłowego uzyskania danej wartości po komendzie "LOAD DATA LOCAL..."
+
+3. W pliku .fmt próbowano interpretacji zmiennych liczbowych jako INT bądź FLOAT, ale nie dawały dobrych rezultatów w przeróżnych konfiguracjach, ostatecznie poddano się i użyto wszystkich typów danych jako SQLCHAR, żeby dane załadowały się poprawnie.

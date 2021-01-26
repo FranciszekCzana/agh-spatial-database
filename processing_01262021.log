@@ -1,0 +1,19 @@
+01262021144211 -- START
+01262021144211 -- Pobieranie pliku -- OK
+01262021144211 -- Rozpakowywanie pliku -- OK
+20210126144211 -- Przetwarzanie i walidacja danych -- OK 
+ Przetworzono 10008 linii (bez naglowka) 
+ Poprawnych: 9965, blednych: 43 (w tym 7 duplikatow ze starego pliku)
+MYSQL QUERY: CREATE TABLE IF NOT EXISTS CUSTOMERS_290900( ProductKey INT, CurrencyAlternateKey VARCHAR(255), First_Name VARCHAR(255), Last_Name VARCHAR(255), OrderDateKey VARCHAR(255), OrderQuantity INT, UnitPrice FLOAT, SecretCode VARCHAR(255));
+20210126144212 -- Tworzenie tabeli w bazie MYSQL -- OK
+MYSQL QUERY: LOAD DATA LOCAL INFILE 'InternetSales_new.txt' INTO TABLE CUSTOMERS_290900 FIELDS TERMINATED BY '|';
+20210126144212 -- Ladowanie danych do tabeli -- OK
+20210126144212 -- Przeniesienie pliku -- OK
+20210126144212 -- Wyslanie raportu email -- OK
+MYSQL QUERY: UPDATE CUSTOMERS_290900 SET SecretCode = RIGHT(MD5(RAND()), 10);
+20210126144212 -- Aktualizacja SecretCode -- OK
+MYSQL QUERY: SELECT * FROM CUSTOMERS_290900;
+20210126144213 -- Eksportowanie tabeli do csv -- OK
+20210126144213 -- Archiwizowanie pliku csv -- OK
+20210126144213 -- Wyslanie pliku na poczte -- OK
+20210126144213 -- KONIEC
